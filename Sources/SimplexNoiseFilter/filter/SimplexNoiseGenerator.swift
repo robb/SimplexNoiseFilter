@@ -60,17 +60,24 @@ public final class SimplexNoiseGenerator: CIFilter {
             print("Failed to create kernel.")
             return nil
         }
+
+        var arguments: [Any] = [
+            lowColor.ciVector,
+            highColor.ciVector,
+            offsetX,
+            offsetY,
+            offsetZ,
+            zoom,
+            contrast,
+        ]
+
+        #if os(iOS)
+        arguments.append(0)
+        #endif
+
         return kernel.apply(
             extent: .infinite,
-            arguments: [
-                lowColor.ciVector,
-                highColor.ciVector,
-                offsetX,
-                offsetY,
-                offsetZ,
-                zoom,
-                contrast
-            ]
+            arguments: arguments
         )
     }
 }

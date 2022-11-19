@@ -75,21 +75,28 @@ public final class FractalNoiseGenerator: CIFilter {
             assertionFailure("Failed to create kernel.")
             return nil
         }
+
+        var arguments: [Any] = [
+            lowColor.ciVector,
+            highColor.ciVector,
+            offsetX,
+            offsetY,
+            offsetZ,
+            max(1.0, min(zoom, 1000.0)),
+            max(0.1, min(contrast, 10.0)),
+            Float(max(1, min(octaves, 8))),
+            amplitude,
+            lacuniarity,
+            persistence,
+        ]
+
+        #if os(iOS)
+        arguments.append(0)
+        #endif
+
         return kernel.apply(
             extent: .infinite,
-            arguments: [
-                lowColor.ciVector,
-                highColor.ciVector,
-                offsetX,
-                offsetY,
-                offsetZ,
-                max(1.0, min(zoom, 1000.0)),
-                max(0.1, min(contrast, 10.0)),
-                Float(max(1, min(octaves, 8))),
-                amplitude,
-                lacuniarity,
-                persistence,
-            ]
+            arguments: arguments
         )
     }
 }
