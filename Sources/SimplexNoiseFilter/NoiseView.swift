@@ -10,6 +10,8 @@ public struct NoiseView: View {
     @Environment(\.displayScale)
     var displayScale
 
+    public init() {}
+
     public var body: some View {
         GeometryReader { p in
             image(bounds: CGRect(origin: .zero, size: p.size))
